@@ -1,0 +1,12 @@
+{
+  "name": "smart-farm-management",
+  "version": "1.0.0",
+  "description": "Smart Farm Management System - Full Stack",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "seed": "cd backend && node seed.js",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "start": "echo 'Run dev:backend and dev:frontend in separate terminals'"
+  }
+}

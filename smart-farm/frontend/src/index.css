@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Farm background overlay for readability */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(12, 10, 9, 0.88) 0%, rgba(12, 10, 9, 0.78) 50%, rgba(12, 10, 9, 0.92) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  body {
+    font-family: 'Nunito', sans-serif;
+    @apply text-stone-100;
+    background-color: #0c0a09;
+    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=85');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-stone-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-leaf-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-leaf-600;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+  
+  .glass-dark {
+    @apply bg-black/30 backdrop-blur-xl border border-white/10;
+  }
+
+  .btn-primary {
+    @apply bg-leaf-600 hover:bg-leaf-500 text-white font-semibold px-6 py-2.5 rounded-xl 
+           transition-all duration-200 active:scale-95 shadow-lg shadow-leaf-900/50
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-2.5 rounded-xl 
+           transition-all duration-200 border border-white/20 active:scale-95;
+  }
+
+  .btn-danger {
+    @apply bg-red-600/80 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded-xl 
+           transition-all duration-200 active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white 
+           placeholder-stone-500 focus:outline-none focus:border-leaf-500 focus:ring-1 
+           focus:ring-leaf-500/50 transition-all duration-200;
+  }
+
+  .select-field {
+    @apply w-full bg-stone-900 border border-white/10 rounded-xl px-4 py-3 text-white 
+           focus:outline-none focus:border-leaf-500 focus:ring-1 focus:ring-leaf-500/50 
+           transition-all duration-200 cursor-pointer;
+  }
+
+  .label-text {
+    @apply block text-stone-400 text-sm font-semibold mb-1.5 uppercase tracking-wide;
+  }
+
+  .stat-card {
+    @apply glass-card p-5 hover:border-leaf-700/50 transition-all duration-300 
+           hover:-translate-y-1 hover:shadow-xl hover:shadow-black/30 cursor-default;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-stone-400 hover:text-white 
+           hover:bg-white/10 transition-all duration-200 font-medium text-sm cursor-pointer;
+  }
+
+  .sidebar-link.active {
+    @apply text-white bg-leaf-700/40 border border-leaf-600/30;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-amber-500/20 text-amber-400 border border-amber-500/30;
+  }
+  .badge-approved {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-leaf-500/20 text-leaf-400 border border-leaf-500/30;
+  }
+  .badge-rejected {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-red-500/20 text-red-400 border border-red-500/30;
+  }
+  .badge-sown {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+  .badge-harvested {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-purple-500/20 text-purple-400 border border-purple-500/30;
+  }
+
+  .page-enter {
+    animation: fadeUp 0.4s ease-out both;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4;
+  }
+
+  .modal-box {
+    @apply glass-dark rounded-2xl w-full max-w-lg p-6 shadow-2xl;
+    animation: fadeUp 0.3s ease-out both;
+  }
+
+  .table-row {
+    @apply border-b border-white/5 hover:bg-white/5 transition-colors duration-150;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-leaf-400 to-emerald-300 bg-clip-text text-transparent;
+  }
+  .text-gradient-earth {
+    @apply bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent;
+  }
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+}
