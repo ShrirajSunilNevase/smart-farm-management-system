@@ -26,21 +26,13 @@ app.use('/api/weather',  require('./routes/weather'));
 app.use('/api/messages', require('./routes/messages'));   // Admin-to-farmer messaging
 app.use('/api/listings', require('./routes/listings'));   // KisanBazaar marketplace
 
-// ── Serve React frontend in production ────────────────────────────────────
-if (process.env.NODE_ENV === 'production') {
-  const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
-  app.use(express.static(frontendDist));
-  // All non-API routes → React app
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendDist, 'index.html'));
-  });
-} else {
-  app.get('/', (req, res) => res.json({
-    message: '🌾 Smart Farm API is running',
-    team: 'Team Antigravity',
-    version: '2.0.0'
-  }));
-}
+// ── API status route ──────────────────────────────────────────────────────
+// Frontend is deployed separately on Vercel — backend serves API only
+app.get('/', (req, res) => res.json({
+  message: '🌾 Smart Farm API is running',
+  team: 'Team Antigravity',
+  version: '2.0.0'
+}));
 
 // Global error handler
 app.use((err, req, res, next) => {
