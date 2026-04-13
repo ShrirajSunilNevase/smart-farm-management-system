@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sprout, Shield, BarChart3, ArrowRight, Leaf, Sun, Droplets, Wind } from 'lucide-react';
+import {
+  Sprout, Shield, BarChart3, ArrowRight, Leaf, Sun, Droplets, Wind,
+  MessageCircle, ShoppingBag, TrendingUp, Bot, Phone, Users, Star
+} from 'lucide-react';
 
 const StatBadge = ({ icon: Icon, value, label, delay }) => (
   <div
@@ -38,7 +41,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-stone-950 overflow-x-hidden">
-      {/* Background layers — wheat field at golden hour, immersive parallax */}
+      {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -58,21 +61,25 @@ export default function LandingPage() {
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-leaf-600 rounded-xl flex items-center justify-center shadow-lg shadow-leaf-900/50">
+          <div className="w-10 h-10 bg-gradient-to-br from-leaf-600 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-leaf-900/50">
             <Sprout className="w-6 h-6 text-white" />
           </div>
-          <span className="font-display text-white text-xl font-bold">SmartFarm</span>
+          <div>
+            <span className="font-display text-white text-xl font-bold">SmartFarm</span>
+            <span className="hidden sm:inline ml-2 text-leaf-500 text-xs font-medium bg-leaf-950/60 border border-leaf-700/40 px-2 py-0.5 rounded-full"></span>
+          </div>
         </div>
         <div className="hidden md:flex items-center gap-8 text-stone-400 text-sm font-medium">
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#about" className="hover:text-white transition-colors">About</a>
+          <a href="#team" className="hover:text-white transition-colors">Team</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/farmer/login')} className="btn-secondary text-sm py-2 px-4">
+          <button onClick={() => navigate('/farmer/login')} className="btn-secondary text-sm py-2 px-4" id="nav-farmer-login">
             Farmer Login
           </button>
-          <button onClick={() => navigate('/admin/login')} className="btn-primary text-sm py-2 px-4">
+          <button onClick={() => navigate('/admin/login')} className="btn-primary text-sm py-2 px-4" id="nav-admin-login">
             Officer Login
           </button>
         </div>
@@ -81,6 +88,9 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="relative z-10 max-w-7xl mx-auto px-8 pt-16 pb-24">
         <div className="max-w-4xl mx-auto text-center">
+
+
+
           <div
             className="inline-flex items-center gap-2 bg-leaf-900/50 border border-leaf-700/40 text-leaf-400 text-sm px-4 py-2 rounded-full mb-8 font-medium"
             style={{ animation: 'fadeUp 0.5s ease-out both' }}
@@ -104,7 +114,7 @@ export default function LandingPage() {
           >
             Bridging the gap between <span className="text-white font-semibold">farmers</span> and{' '}
             <span className="text-white font-semibold">land officers</span> — manage lands, monitor crops,
-            verify records, and grow smarter together.
+            sell produce, and grow smarter together.
           </p>
 
           <div
@@ -114,6 +124,7 @@ export default function LandingPage() {
             <button
               onClick={() => navigate('/farmer/register')}
               className="group flex items-center gap-3 bg-leaf-600 hover:bg-leaf-500 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 shadow-xl shadow-leaf-900/50 hover:-translate-y-1 text-lg"
+              id="hero-register-btn"
             >
               <Sprout className="w-5 h-5" />
               Register as Farmer
@@ -122,6 +133,7 @@ export default function LandingPage() {
             <button
               onClick={() => navigate('/admin/login')}
               className="group flex items-center gap-3 glass-card text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:border-leaf-600/50 text-lg"
+              id="hero-officer-btn"
             >
               <Shield className="w-5 h-5 text-leaf-400" />
               Land Officer Portal
@@ -156,10 +168,13 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <FeatureCard icon={Sprout} title="Land Registration" desc="Register and manage multiple land parcels with soil types, irrigation details, and survey numbers." color="bg-leaf-700" delay={0} />
           <FeatureCard icon={Leaf} title="Crop Management" desc="Track crop lifecycle from sowing to harvest with fertilizer usage and growth notes." color="bg-emerald-700" delay={100} />
-          <FeatureCard icon={BarChart3} title="Analytics Dashboard" desc="Visualize farm data with charts, statistics, and performance insights in real-time." color="bg-teal-700" delay={200} />
+          <FeatureCard icon={BarChart3} title="Analytics Dashboard" desc="Visualize farm data with live charts, statistics, and performance insights." color="bg-teal-700" delay={200} />
           <FeatureCard icon={Shield} title="Land Verification" desc="Land officers can review, approve, or reject land records with official remarks." color="bg-stone-700" delay={300} />
-          <FeatureCard icon={Sun} title="Equipment Tracking" desc="Keep inventory of tractors, harvesters, pumps and all farm machinery in one place." color="bg-amber-700" delay={400} />
-          <FeatureCard icon={Droplets} title="Notifications" desc="Stay updated with real-time alerts from land officers about approval status and feedback." color="bg-blue-700" delay={500} />
+          <FeatureCard icon={ShoppingBag} title="KisanBazaar Market" desc="List your produce for sale, connect with buyers, and earn more for your hard work." color="bg-purple-700" delay={400} />
+          <FeatureCard icon={TrendingUp} title="Live Market Rates" desc="Check today's MSP and market prices for common crops so you always sell at the right price." color="bg-blue-700" delay={500} />
+          <FeatureCard icon={MessageCircle} title="Admin Messaging" desc="Direct communication channel between farmers and land officers for instant support." color="bg-indigo-700" delay={600} />
+          <FeatureCard icon={Bot} title="KisanBot AI Helper" desc="24/7 chatbot for crop advice, government schemes, weather tips, and platform guidance." color="bg-cyan-700" delay={700} />
+          <FeatureCard icon={Droplets} title="Smart Notifications" desc="Stay updated with real-time alerts from land officers about approval status and feedback." color="bg-sky-700" delay={800} />
         </div>
       </section>
 
@@ -177,7 +192,7 @@ export default function LandingPage() {
             {[
               { step: '01', title: 'Register', desc: 'Farmers sign up and create their digital farm profile with personal and land information.' },
               { step: '02', title: 'Submit', desc: 'Add land records, crop details, and equipment. Submit for official land officer review.' },
-              { step: '03', title: 'Manage', desc: 'Land officers verify records. Farmers receive notifications and track all farming activities.' },
+              { step: '03', title: 'Manage', desc: 'Officers verify records. Farmers get notifications, sell on KisanBazaar, and track everything.' },
             ].map(item => (
               <div key={item.step} className="text-center">
                 <div className="text-6xl font-display text-leaf-800 font-bold mb-3">{item.step}</div>
@@ -186,6 +201,34 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Team Antigravity Section */}
+      <section id="team" className="relative z-10 max-w-7xl mx-auto px-8 py-20">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-amber-900/40 border border-amber-700/40 text-amber-400 text-sm px-4 py-2 rounded-full mb-6 font-medium">
+            <Star className="w-4 h-4" />
+            College Project
+          </div>
+
+          <p className="text-stone-400 text-lg max-w-2xl mx-auto">
+            We believe in empowering farmers through technology.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          {[
+            { icon: '🌾', title: 'Farmer First', desc: 'Every feature designed with farmers in mind. Simple, accessible, and effective.' },
+            { icon: '💻', title: 'Tech Powered', desc: 'Built with React, Node.js, and MongoDB — modern full-stack web development.' },
+
+          ].map((item, i) => (
+            <div key={i} className="glass-card p-6 text-center hover:-translate-y-1 transition-all duration-300">
+              <div className="text-4xl mb-3">{item.icon}</div>
+              <h3 className="text-white font-bold mb-2">{item.title}</h3>
+              <p className="text-stone-400 text-sm">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -201,17 +244,44 @@ export default function LandingPage() {
             <h2 className="font-display text-4xl md:text-5xl text-white mb-4">
               Ready to Transform Your Farm?
             </h2>
-            <p className="text-leaf-200 text-lg mb-8 max-w-xl mx-auto">
-              Join thousands of farmers already managing their land digitally with SmartFarm.
-            </p>
-            <div className="flex items-center justify-center gap-4">
+
+            <div className="flex items-center justify-center gap-4 flex-wrap">
               <button
                 onClick={() => navigate('/farmer/register')}
                 className="flex items-center gap-2 bg-white text-leaf-800 hover:bg-leaf-50 font-bold px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1 shadow-xl"
+                id="cta-register-btn"
               >
                 <Sprout className="w-5 h-5" />
                 Get Started Free
               </button>
+              <div className="flex items-center gap-2 text-leaf-200">
+                <Phone className="w-4 h-4" />
+                <span className="font-semibold">Helpline: 1800-180-1551</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative z-10 max-w-7xl mx-auto px-8 py-12">
+        <div className="glass-card p-8 text-center">
+          <h3 className="text-white font-display text-2xl mb-4">📞 Need Help?</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white/5 rounded-xl p-4">
+              <div className="text-leaf-400 font-bold mb-1">Kisan Call Centre</div>
+              <div className="text-white text-xl font-bold">1800-180-1551</div>
+              <div className="text-stone-500 text-xs">Toll Free | Mon–Sat 6AM–10PM</div>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4">
+              <div className="text-amber-400 font-bold mb-1">PM Kisan Helpline</div>
+              <div className="text-white text-xl font-bold">155261</div>
+              <div className="text-stone-500 text-xs">For PM Kisan scheme queries</div>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4">
+
+              <div className="text-white text-xl font-bold">Support Portal</div>
+              <div className="text-stone-500 text-xs">Message admin through SmartFarm</div>
             </div>
           </div>
         </div>
@@ -223,7 +293,9 @@ export default function LandingPage() {
           <Sprout className="w-4 h-4 text-leaf-600" />
           <span className="font-display text-white font-bold">SmartFarm</span>
         </div>
-        © 2024 Smart Farm Management System. Built for Modern Agriculture.
+        <p className="mb-1">© 2024 Smart Farm Management System. Built for Modern Agriculture.</p>
+
+        <p className="text-stone-600 text-xs mt-1">Kisan Helpline: 1800-180-1551 (Toll Free)</p>
       </footer>
     </div>
   );

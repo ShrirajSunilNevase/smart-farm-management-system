@@ -69,3 +69,49 @@ smart-farm/
 - Farmer: manage land, crops, equipment, view notifications
 - Admin: analytics dashboard, land verification with remarks, crop monitoring
 - Responsive design: mobile, tablet, desktop
+
+---
+
+## 🚀 Deploy to Vercel
+
+This project is configured for **one-click Vercel deployment** with the frontend served as a static site and the backend running as a Vercel Serverless Function.
+
+### Prerequisites
+1. A **MongoDB Atlas** account with a cloud cluster (free tier works).  
+   Get your connection string from: Atlas → Clusters → Connect → Drivers
+
+### Steps
+
+1. **Push to GitHub** — make sure `smart-farm/` is at the root of your repo.
+
+2. **Import on Vercel**
+   - Go to [vercel.com](https://vercel.com) → New Project → Import from GitHub
+   - Set the **Root Directory** to `smart-farm`
+
+3. **Set Environment Variables** in Vercel dashboard  
+   (Project → Settings → Environment Variables):
+
+   | Variable | Value |
+   |----------|-------|
+   | `MONGO_URI` | `mongodb+srv://user:pass@cluster.mongodb.net/smart-farm` |
+   | `JWT_SECRET` | A long random string |
+   | `NODE_ENV` | `production` |
+   | `FRONTEND_URL` | `https://your-app.vercel.app` |
+
+4. Click **Deploy** — Vercel will:
+   - Build the React frontend (`frontend/dist`)
+   - Deploy the Express API as a serverless function (`api/index.js`)
+   - Route `/api/*` → serverless backend, everything else → React app
+
+### File Structure for Vercel
+```
+smart-farm/          ← Set as "Root Directory" in Vercel
+├── api/
+│   └── index.js    ← Serverless function entry point
+├── backend/        ← Express app (required by api/index.js)
+├── frontend/       ← Vite/React (built to frontend/dist)
+└── vercel.json     ← Routing config
+```
+
+> **Note**: The `.env` file is for local development only. Never commit it.  
+> Set all secrets via the Vercel dashboard Environment Variables.

@@ -2,23 +2,28 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-import LandingPage from './pages/LandingPage';
-import FarmerLogin from './pages/FarmerLogin';
-import FarmerRegister from './pages/FarmerRegister';
-import AdminLogin from './pages/AdminLogin';
+import LandingPage     from './pages/LandingPage';
+import FarmerLogin     from './pages/FarmerLogin';
+import FarmerRegister  from './pages/FarmerRegister';
+import AdminLogin      from './pages/AdminLogin';
 
-import FarmerLayout from './components/farmer/FarmerLayout';
+import FarmerLayout    from './components/farmer/FarmerLayout';
 import FarmerDashboard from './pages/farmer/FarmerDashboard';
-import FarmerProfile from './pages/farmer/FarmerProfile';
-import FarmerLand from './pages/farmer/FarmerLand';
-import FarmerCrops from './pages/farmer/FarmerCrops';
+import FarmerProfile   from './pages/farmer/FarmerProfile';
+import FarmerLand      from './pages/farmer/FarmerLand';
+import FarmerCrops     from './pages/farmer/FarmerCrops';
 import FarmerEquipment from './pages/farmer/FarmerEquipment';
+import FarmerMessages  from './pages/farmer/FarmerMessages';
+import FarmerMarket    from './pages/farmer/FarmerMarket';
+import MarketRates     from './pages/farmer/MarketRates';
 
-import AdminLayout from './components/admin/AdminLayout';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminFarmers from './pages/admin/AdminFarmers';
+import AdminLayout          from './components/admin/AdminLayout';
+import AdminDashboard       from './pages/admin/AdminDashboard';
+import AdminFarmers         from './pages/admin/AdminFarmers';
 import AdminLandVerification from './pages/admin/AdminLandVerification';
-import AdminCropMonitor from './pages/admin/AdminCropMonitor';
+import AdminCropMonitor     from './pages/admin/AdminCropMonitor';
+import AdminMessages        from './pages/admin/AdminMessages';
+import AdminMarket          from './pages/admin/AdminMarket';
 
 const ProtectedRoute = ({ children, role }) => {
   const { user } = useAuth();
@@ -38,24 +43,32 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
-          <Route path="/farmer/login" element={<PublicRoute><FarmerLogin /></PublicRoute>} />
+          {/* Public routes */}
+          <Route path="/"                element={<PublicRoute><LandingPage /></PublicRoute>} />
+          <Route path="/farmer/login"    element={<PublicRoute><FarmerLogin /></PublicRoute>} />
           <Route path="/farmer/register" element={<PublicRoute><FarmerRegister /></PublicRoute>} />
-          <Route path="/admin/login" element={<PublicRoute><AdminLogin /></PublicRoute>} />
+          <Route path="/admin/login"     element={<PublicRoute><AdminLogin /></PublicRoute>} />
 
+          {/* Farmer routes */}
           <Route path="/farmer" element={<ProtectedRoute role="farmer"><FarmerLayout /></ProtectedRoute>}>
-            <Route index element={<FarmerDashboard />} />
-            <Route path="profile" element={<FarmerProfile />} />
-            <Route path="land" element={<FarmerLand />} />
-            <Route path="crops" element={<FarmerCrops />} />
+            <Route index          element={<FarmerDashboard />} />
+            <Route path="profile"  element={<FarmerProfile />} />
+            <Route path="land"     element={<FarmerLand />} />
+            <Route path="crops"    element={<FarmerCrops />} />
             <Route path="equipment" element={<FarmerEquipment />} />
+            <Route path="messages" element={<FarmerMessages />} />
+            <Route path="market"   element={<FarmerMarket />} />
+            <Route path="rates"    element={<MarketRates />} />
           </Route>
 
+          {/* Admin routes */}
           <Route path="/admin" element={<ProtectedRoute role="admin"><AdminLayout /></ProtectedRoute>}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="farmers" element={<AdminFarmers />} />
-            <Route path="land" element={<AdminLandVerification />} />
-            <Route path="crops" element={<AdminCropMonitor />} />
+            <Route index           element={<AdminDashboard />} />
+            <Route path="farmers"  element={<AdminFarmers />} />
+            <Route path="land"     element={<AdminLandVerification />} />
+            <Route path="crops"    element={<AdminCropMonitor />} />
+            <Route path="messages" element={<AdminMessages />} />
+            <Route path="market"   element={<AdminMarket />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

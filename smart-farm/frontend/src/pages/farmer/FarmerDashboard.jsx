@@ -26,22 +26,36 @@ const CROP_COLORS = ['#22c55e', '#3b82f6', '#a855f7'];
 const CROP_LABELS = { to_be_sown: 'To Be Sown', sown: 'Sown', harvested: 'Harvested' };
 
 export default function FarmerDashboard() {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const [data, setData] = useState({ lands: [], crops: [], equipment: [], loading: true });
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchAll = async () => {
+    try {
+      const [landRes, cropRes, eqRes] = await Promise.all([
+        api.get('/land'), api.get('/crops'), api.get('/equipment')
+      ]);
+      setData({ lands: landRes.data, crops: cropRes.data, equipment: eqRes.data, loading: false });
+    } catch {
+      setData(d => ({ ...d, loading: false }));
+    }
+  };
 
   useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const [landRes, cropRes, eqRes] = await Promise.all([
-          api.get('/land'), api.get('/crops'), api.get('/equipment')
-        ]);
-        setData({ lands: landRes.data, crops: cropRes.data, equipment: eqRes.data, loading: false });
-      } catch {
-        setData(d => ({ ...d, loading: false }));
-      }
-    };
     fetchAll();
+    refreshUser(); // BUG FIX: Sync latest user data (notifications) from server on mount
   }, []);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await Promise.all([fetchAll(), refreshUser()]);
+    setRefreshing(false);
+  };
+
+  // Dynamic greeting by time of day
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
 
   const unreadNotifs = user?.notifications?.filter(n => !n.read) || [];
   const approvedLands = data.lands.filter(l => l.approvalStatus === 'approved').length;
@@ -73,15 +87,24 @@ export default function FarmerDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-3xl text-white">
-            Good morning, <span className="text-gradient">{user?.name?.split(' ')[0]}</span> 🌾
+            {greeting}, <span className="text-gradient">{user?.name?.split(' ')[0]}</span> 🌾
           </h1>
           <p className="text-stone-400 mt-1">Here's your farm overview for today</p>
         </div>
-        <div className="hidden md:flex items-center gap-2 text-stone-400 text-sm glass-card px-4 py-2">
-          <Sun className="w-4 h-4 text-amber-400" />
-          {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="flex items-center gap-2 glass-card px-4 py-2 text-sm text-stone-400 hover:text-white transition-colors"
+            id="dashboard-refresh-btn"
+            title="Refresh dashboard data"
+          >
+            <Sun className={`w-4 h-4 text-amber-400 ${refreshing ? 'animate-spin' : ''}`} />
+            {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </button>
         </div>
       </div>
+
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
