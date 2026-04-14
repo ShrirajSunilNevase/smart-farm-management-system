@@ -1,15 +1,15 @@
 services:
   - type: web
-    name: smart-farm-management-system
+    name: smart-farm-backend
     runtime: node
-    rootDir: smart-farm
-    buildCommand: npm run build
-    startCommand: npm run start
+    rootDir: smart-farm/backend
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 5000
+        value: 10000
       - key: MONGO_URI
         sync: false       # Set this in Render Dashboard → Environment
       - key: JWT_SECRET
